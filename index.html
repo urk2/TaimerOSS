@@ -1,0 +1,166 @@
+<div class="oss-countdown">
+    <div class="oss-countdown__title">До конца ОСС осталось:</div>
+
+    <div class="oss-countdown__timer" id="oss-timer">
+        <div class="oss-countdown__item">
+            <div class="oss-countdown__value" id="t-days">00</div>
+            <div class="oss-countdown__label">Дней</div>
+        </div>
+        <div class="oss-countdown__item">
+            <div class="oss-countdown__value" id="t-hours">00</div>
+            <div class="oss-countdown__label">Часов</div>
+        </div>
+        <div class="oss-countdown__item">
+            <div class="oss-countdown__value" id="t-minutes">00</div>
+            <div class="oss-countdown__label">Минут</div>
+        </div>
+        <div class="oss-countdown__item">
+            <div class="oss-countdown__value" id="t-seconds">00</div>
+            <div class="oss-countdown__label">Секунд</div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .oss-countdown {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        text-align: center;
+        padding: 30px 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+        border-radius: 16px;
+        max-width: 720px;
+        margin: 20px auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .oss-countdown__title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1a2b4a;
+        margin-bottom: 25px;
+        letter-spacing: 0.3px;
+    }
+
+    .oss-countdown__timer {
+        display: inline-flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .oss-countdown__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 90px;
+        padding: 18px 10px 14px;
+        background: linear-gradient(160deg, #ffffff 0%, #f0f4fa 100%);
+        border: 1px solid #dbe4ef;
+        border-radius: 14px;
+        box-shadow: 0 6px 14px rgba(26, 43, 74, 0.08),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .oss-countdown__item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(26, 43, 74, 0.12),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .oss-countdown__value {
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1;
+        color: #1a2b4a;
+        font-variant-numeric: tabular-nums;
+        background: linear-gradient(180deg, #2c4a7c 0%, #1a2b4a 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .oss-countdown__label {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #7a8aa3;
+        margin-top: 8px;
+    }
+
+    /* Выделение блока «Секунд» */
+    .oss-countdown__item:last-child .oss-countdown__value {
+        background: linear-gradient(180deg, #d9432b 0%, #a82b18 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 520px) {
+        .oss-countdown {
+            padding: 20px 12px;
+        }
+        .oss-countdown__title {
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+        .oss-countdown__timer {
+            gap: 8px;
+        }
+        .oss-countdown__item {
+            min-width: 64px;
+            padding: 12px 6px 10px;
+            border-radius: 10px;
+        }
+        .oss-countdown__value {
+            font-size: 26px;
+        }
+        .oss-countdown__label {
+            font-size: 10px;
+            letter-spacing: 0.5px;
+        }
+    }
+</style>
+
+<script>
+(function () {
+    // Дата окончания ОСС: 24 октября 2026, 00:00 по Москве
+    var endDate = new Date("2026-10-24T00:00:00+03:00").getTime();
+
+    function pad(n) { return n < 10 ? "0" + n : n; }
+
+    function update() {
+        var now = Date.now();
+        var diff = endDate - now;
+
+        var daysEl    = document.getElementById("t-days");
+        var hoursEl   = document.getElementById("t-hours");
+        var minutesEl = document.getElementById("t-minutes");
+        var secondsEl = document.getElementById("t-seconds");
+
+        if (diff <= 0) {
+            daysEl.textContent    = "00";
+            hoursEl.textContent   = "00";
+            minutesEl.textContent = "00";
+            secondsEl.textContent = "00";
+            return;
+        }
+
+        var days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+        var hours   = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        var minutes = Math.floor((diff / (1000 * 60)) % 60);
+        var seconds = Math.floor((diff / 1000) % 60);
+
+        daysEl.textContent    = pad(days);
+        hoursEl.textContent   = pad(hours);
+        minutesEl.textContent = pad(minutes);
+        secondsEl.textContent = pad(seconds);
+    }
+
+    update();
+    setInterval(update, 1000);
+})();
+</script>
